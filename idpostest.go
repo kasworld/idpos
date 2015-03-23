@@ -14,6 +14,7 @@ import (
 	"github.com/kasworld/idpos/idpos1m"
 	"github.com/kasworld/idpos/idpos1s"
 	"github.com/kasworld/idpos/idpos2m"
+	"github.com/kasworld/idpos/idpos2s"
 	"github.com/kasworld/idpos/idposi"
 )
 
@@ -89,32 +90,27 @@ func doMain(args []string) {
 	}
 	fmt.Printf("init %v\n", time.Now().Sub(sttime))
 
-	sttime = time.Now()
 	idp1m := idpos1m.New(xlen, ylen)
-	bench(objs, xlen, ylen, idp1m)
-	fmt.Printf("1d map %v\n", time.Now().Sub(sttime))
+	bench(objs, xlen, ylen, idp1m, "1d map")
 
-	sttime = time.Now()
 	idp1s := idpos1s.New(xlen, ylen)
-	bench(objs, xlen, ylen, idp1s)
-	fmt.Printf("1d slice %v\n", time.Now().Sub(sttime))
+	bench(objs, xlen, ylen, idp1s, "1d slice")
 
-	sttime = time.Now()
 	idp2m := idpos2m.New(xlen, ylen)
-	bench(objs, xlen, ylen, idp2m)
-	fmt.Printf("2m slice %v\n", time.Now().Sub(sttime))
+	bench(objs, xlen, ylen, idp2m, "2d map")
+
+	idp2s := idpos2s.New(xlen, ylen)
+	bench(objs, xlen, ylen, idp2s, "2d slice")
 
 }
 
-func bench(objs []*posobj, xlen, ylen int, idp idposi.IDPosManI) {
-	// xlen, ylen := 1024, 1024
-	// idp := idpos1s.New(xlen, ylen)
-
+func bench(objs []*posobj, xlen, ylen int, idp idposi.IDPosManI, name string) {
+	sttime2 := time.Now()
 	sttime := time.Now()
 	for _, v := range objs {
 		idp.Add(v)
 	}
-	fmt.Printf("add %v\n", time.Now().Sub(sttime))
+	fmt.Printf("%v add %v\n", name, time.Now().Sub(sttime))
 
 	sttime = time.Now()
 	for i := 0; i < 10; i++ {
@@ -124,11 +120,13 @@ func bench(objs []*posobj, xlen, ylen int, idp idposi.IDPosManI) {
 			v.Pos = newpos
 		}
 	}
-	fmt.Printf("move %v\n", time.Now().Sub(sttime))
+	fmt.Printf("%v move %v\n", name, time.Now().Sub(sttime))
 
 	sttime = time.Now()
 	for _, v := range objs {
 		idp.Del(v)
 	}
-	fmt.Printf("del %v\n", time.Now().Sub(sttime))
+	fmt.Printf("%v del %v\n", name, time.Now().Sub(sttime))
+
+	fmt.Printf("%v %v\n\n", name, time.Now().Sub(sttime2))
 }
