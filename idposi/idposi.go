@@ -1,7 +1,11 @@
 package idposi
 
+import (
+	"github.com/kasworld/idgen"
+)
+
 type IDPosI interface {
-	GetID() int64
+	GetID() idgen.IDInt
 	GetPos() [2]int
 }
 
@@ -11,8 +15,8 @@ type DoFn func(fo IDPosI) bool
 
 type IDPosManI interface {
 	Count() int
-	All() map[int64]IDPosI
-	GetByID(id int64) IDPosI
+	All() map[idgen.IDInt]IDPosI
+	GetByID(id idgen.IDInt) IDPosI
 	IterAtXY(x, y int, fn DoFn) bool
 	IterAt(pos [2]int, fn DoFn) bool
 	PosXYObjs(x, y int) IDPosIList

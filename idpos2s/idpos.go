@@ -1,24 +1,36 @@
+// Copyright 2015 SeukWon Kang (kasworld@gmail.com)
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//    http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 // postioned object managment in 2d space
 package idpos2s
 
 import (
 	"sync"
 
+	"github.com/kasworld/idgen"
 	"github.com/kasworld/idpos/idposi"
 	// "github.com/kasworld/log"
 )
 
 type Manager struct {
-	id2obj   map[int64]idposi.IDPosI
-	id2pos   map[int64][2]int
+	id2obj   map[idgen.IDInt]idposi.IDPosI
+	id2pos   map[idgen.IDInt][2]int
 	pos2objs [][]idposi.IDPosIList
 	mutex    sync.Mutex
 }
 
 func New(x, y int) idposi.IDPosManI {
 	rtn := Manager{
-		id2obj:   make(map[int64]idposi.IDPosI),
-		id2pos:   make(map[int64][2]int),
+		id2obj:   make(map[idgen.IDInt]idposi.IDPosI),
+		id2pos:   make(map[idgen.IDInt][2]int),
 		pos2objs: make([][]idposi.IDPosIList, x),
 	}
 	for i, _ := range rtn.pos2objs {
@@ -30,10 +42,10 @@ func New(x, y int) idposi.IDPosManI {
 func (fo *Manager) Count() int {
 	return len(fo.id2obj)
 }
-func (fo *Manager) All() map[int64]idposi.IDPosI {
+func (fo *Manager) All() map[idgen.IDInt]idposi.IDPosI {
 	return fo.id2obj
 }
-func (fo *Manager) GetByID(id int64) idposi.IDPosI {
+func (fo *Manager) GetByID(id idgen.IDInt) idposi.IDPosI {
 	return fo.id2obj[id]
 }
 func (fo *Manager) PosXYObjs(x, y int) idposi.IDPosIList {
