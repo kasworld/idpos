@@ -37,7 +37,7 @@ func init() {
 func writeHeapProfile(filename string) {
 	f, err := os.Create(filename)
 	if err != nil {
-		log.Fatalf("mem profile %v", err)
+		log.Fatal("mem profile %v", err)
 	}
 	pprof.WriteHeapProfile(f)
 	f.Close()
@@ -46,7 +46,7 @@ func writeHeapProfile(filename string) {
 func startCPUProfile(filename string) func() {
 	f, err := os.Create(filename)
 	if err != nil {
-		log.Fatalf("cpu profile %v", err)
+		log.Fatal("cpu profile %v", err)
 	}
 	pprof.StartCPUProfile(f)
 	return pprof.StopCPUProfile
