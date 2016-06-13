@@ -9,7 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// postioned object managment in 2d space
+// postioned object management in 2d space
 package idpos2m
 
 import (
