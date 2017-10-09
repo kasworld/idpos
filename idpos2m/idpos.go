@@ -24,7 +24,7 @@ type Manager struct {
 	id2obj   map[idgen.IDInt]idposi.IDPosI
 	id2pos   map[idgen.IDInt][2]int
 	pos2objs map[[2]int]idposi.IDPosIList
-	mutex    sync.Mutex
+	mutex    sync.RWMutex
 }
 
 func New(x, y int) idposi.IDPosManI {
@@ -39,8 +39,14 @@ func New(x, y int) idposi.IDPosManI {
 func (fo *Manager) Count() int {
 	return len(fo.id2obj)
 }
-func (fo *Manager) All() map[idgen.IDInt]idposi.IDPosI {
-	return fo.id2obj
+func (fo *Manager) All() idposi.IDPosIList {
+	rtn := make(idposi.IDPosIList, 0, len(fo.id2obj))
+	fo.mutex.RLock()
+	defer fo.mutex.RUnlock()
+	for _, v := range fo.id2obj {
+		rtn = append(rtn, v)
+	}
+	return rtn
 }
 func (fo *Manager) GetByID(id idgen.IDInt) idposi.IDPosI {
 	return fo.id2obj[id]

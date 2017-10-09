@@ -15,7 +15,7 @@ type DoFn func(fo IDPosI) bool
 
 type IDPosManI interface {
 	Count() int
-	All() map[idgen.IDInt]IDPosI
+	All() IDPosIList
 	GetByID(id idgen.IDInt) IDPosI
 	IterAtXY(x, y int, fn DoFn) bool
 	IterAt(pos [2]int, fn DoFn) bool
