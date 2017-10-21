@@ -17,7 +17,6 @@ import (
 
 	"github.com/kasworld/idgen"
 	"github.com/kasworld/idpos/idposi"
-	// "github.com/kasworld/log"
 )
 
 type Manager struct {
@@ -42,7 +41,6 @@ func New(x, y int) idposi.IDPosManI {
 		id2obj:   make(map[idgen.IDInt]idposi.IDPosI),
 		id2posi:  make(map[idgen.IDInt]int),
 		pos2objs: make(map[int]idposi.IDPosIList),
-		// pos2objs: make(map[int]idposi.IDPosIList, x*y),
 	}
 	return &rtn
 }

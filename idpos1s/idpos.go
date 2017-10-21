@@ -17,7 +17,6 @@ import (
 
 	"github.com/kasworld/idgen"
 	"github.com/kasworld/idpos/idposi"
-	// "github.com/kasworld/log"
 )
 
 type Manager struct {
